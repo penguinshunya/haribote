@@ -61,22 +61,22 @@ unsafe fn set_palette(rgb: &[u32; 48]) {
     io_store_eflags(eflags);
 }
 
-const COL8_000000: u8 = 0;
-const COL8_FF0000: u8 = 1;
-const COL8_00FF00: u8 = 2;
-const COL8_FFFF00: u8 = 3;
-const COL8_0000FF: u8 = 4;
-const COL8_FF00FF: u8 = 5;
-const COL8_00FFFF: u8 = 6;
-const COL8_FFFFFF: u8 = 7;
-const COL8_C6C6C6: u8 = 8;
-const COL8_840000: u8 = 9;
-const COL8_008400: u8 = 10;
-const COL8_848400: u8 = 11;
-const COL8_000084: u8 = 12;
-const COL8_840084: u8 = 13;
-const COL8_4488CC: u8 = 14;
-const COL8_848484: u8 = 15;
+pub const COL8_000000: u8 = 0;
+pub const COL8_FF0000: u8 = 1;
+pub const COL8_00FF00: u8 = 2;
+pub const COL8_FFFF00: u8 = 3;
+pub const COL8_0000FF: u8 = 4;
+pub const COL8_FF00FF: u8 = 5;
+pub const COL8_00FFFF: u8 = 6;
+pub const COL8_FFFFFF: u8 = 7;
+pub const COL8_C6C6C6: u8 = 8;
+pub const COL8_840000: u8 = 9;
+pub const COL8_008400: u8 = 10;
+pub const COL8_848400: u8 = 11;
+pub const COL8_000084: u8 = 12;
+pub const COL8_840084: u8 = 13;
+pub const COL8_4488CC: u8 = 14;
+pub const COL8_848484: u8 = 15;
 
 unsafe fn init_screen(vram: *mut u8, xsize: u32, ysize: u32) {
     // boxfill8(vram, xsize, COL8_4488CC,          0,          0, xsize -  1, ysize - 29);
