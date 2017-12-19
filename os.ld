@@ -1,5 +1,5 @@
 OUTPUT_FORMAT(binary);
-ENTRY(HariMain);
+ENTRY(hari_main);
 
 SECTIONS {
 	.head 0x0 : {
@@ -10,11 +10,11 @@ SECTIONS {
 		LONG(SIZEOF(.data)) /* 16 : size of .data */
 		LONG(LOADADDR(.data)) /* 20 : size of .data */
 		LONG(0xE9000000) /* 24 : E9000000 */
-		LONG(HariMain - 0x20) /* 28 : entry - 0x20 */
+		LONG(hari_main - 0x20) /* 28 : entry - 0x20 */
 		LONG(0x01) /* 32 : heap領域開始アドレス */
 	}
 
-	.text	: {*(.text)}
+	.text	: {*(.text*)}
 
 	.data 0x310000 : AT ( ADDR(.text) + SIZEOF(.text) ) {
 		*(.data)
