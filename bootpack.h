@@ -25,7 +25,9 @@ void store_cr0(int cr0);
 unsigned int memtest_sub(unsigned int start, unsigned int end);
 int get_esp(void);
 void load_tr(int tr);
+void taskswitch3(void);
 void taskswitch4(void);
+void farjmp(int eip, int cs);
 
 /* graphic.c */
 void init_palette(void);
