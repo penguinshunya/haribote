@@ -1,1 +1,3 @@
-memset関数を、RustからC言語に書き換えることで、init_screen関数が正常に動作するようになった。
+・memset関数を、RustからC言語に書き換えることで、init_screen関数が正常に動作するようになった。
+□String::new()が使えないため、core::fmt::write関数が使えない。C言語で実装したtsprintf関数を流用する。
+□Rustで再実装したputfonts8_asc関数だと、文字列が全く表示されない。代わりにC言語のputfonts8_asc関数を使う。

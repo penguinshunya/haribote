@@ -5,6 +5,10 @@ extern {
     fn io_store_eflags(eflags: u32);
 }
 
+// extern "C" {
+//     static hankaku: [u8; 4096];
+// }
+
 const COL8_000000: u8 = 0;
 const COL8_FF0000: u8 = 1;
 const COL8_00FF00: u8 = 2;
@@ -82,3 +86,29 @@ unsafe fn boxfill8(vram: *mut u8, xsize: u32, c: u8, x0: u32, y0: u32, x1: u32, 
         }
     }
 }
+
+// pub unsafe fn putfonts8_asc(vram: *mut u8, xsize: u32, x: u32, y: u32, c: u8, s: *const u8)
+// {
+//     let mut x = x;
+//     let h = hankaku.as_ptr();
+//     for i in 0.. {
+//         let chr = *s.offset(i) as u16;
+//         if chr == 0 {
+//             break;
+//         }
+//         putfont8(vram, xsize, x, y, c, h.offset((chr * 16) as isize));
+//         x += 8;
+//     }
+// }
+//
+// pub unsafe fn putfont8(vram: *mut u8, xsize: u32, x: u32, y: u32, c: u8, font: *const u8) {
+//     for i in 0..16 {
+//         let p = vram.offset(((y + i) * xsize + x) as isize);
+//         let d = *font.offset(i as isize);
+//         for j in 0..8 {
+//             if d & (0x80 >> j) != 0 {
+//                 *p.offset(j) = c;
+//             }
+//         }
+//     }
+// }

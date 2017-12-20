@@ -31,7 +31,7 @@ asmhead.bin: asmhead.asm
 	$(CC) -Wall -c -g -fno-pic $< -o $@
 
 bootpack-rs.o: bootpack.rs
-	rustc --target i686-unknown-linux-gnu --crate-type staticlib --emit obj -C relocation-model=static -C opt-level=2 bootpack.rs -o bootpack-rs.o
+	rustc --target i686-unknown-linux-gnu --crate-type staticlib --emit obj -C relocation-model=static -C opt-level=2 bootpack.rs -o bootpack-rs.o --extern core=libcore.rlib
 
 run: helloos.img
 	$(QEMU) $(QFLAGS)
