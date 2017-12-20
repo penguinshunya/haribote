@@ -3,6 +3,7 @@ extern {
     fn io_store_eflags(eflags: u32);
     fn load_cr0() -> u32;
     fn store_cr0(cr0: u32);
+    fn memtest_sub(start: u32, end: u32) -> u32;
 }
 
 const EFLAGS_AC_BIT: u32 = 0x00040000;
@@ -29,7 +30,7 @@ pub unsafe fn test(start: u32, end: u32) -> u32 {
         store_cr0(cr0);
     }
 
-    // i = memtest_sub(start, end);
+    let i = memtest_sub(start, end);
 
     if !flg486 {
         cr0 = load_cr0();
@@ -37,5 +38,5 @@ pub unsafe fn test(start: u32, end: u32) -> u32 {
         store_cr0(cr0);
     }
 
-    0
+    i
 }

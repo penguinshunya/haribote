@@ -20,14 +20,13 @@ extern "C" {
 #[no_mangle]
 pub unsafe fn hari_main() {
     let binfo = 0x00000ff0 as *const BOOTINFO;
-
+    let s: &[u8] = &[0; 256];
     let memtotal = memory::test(0x00400000, 0xbfffffff);
 
     graphic::init_palette();
     graphic::init_screen((*binfo).vram, (*binfo).scrnx as u32, (*binfo).scrny as u32);
 
-    let s: &[u8] = &[0; 256];
-    tsprintf(s.as_ptr() as *mut u8, b"abc%010d\0".as_ptr(), 100);
+	tsprintf(s.as_ptr() as *mut u8, b"memory %dMB\0".as_ptr(), memtotal / (1024 * 1024));
     putfonts8_asc((*binfo).vram, (*binfo).scrnx as u32, 0, 0, 0, s.as_ptr());
 
     loop {
