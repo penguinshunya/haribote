@@ -6,7 +6,7 @@ QFLAGS	= -boot a -m 32 -drive file=helloos.img,format=raw,if=floppy
 
 OBJS	:= tsprintf.o nasmfunc.o graphic.o dsctbl.o bootpack-rs.o
 OBJS	+= int.o fifo.o keyboard.o mouse.o memory.o sheet.o window.o timer.o
-OBJS	+= functions.o
+OBJS	+= functions.o memset.o
 
 helloos.img: asmhead.bin bootpack.bin ipl.bin haribote.sys
 	mformat -f 1440 -C -B ipl.bin -i helloos.img ::
@@ -31,7 +31,7 @@ asmhead.bin: asmhead.asm
 	$(CC) -Wall -c -g -fno-pic $< -o $@
 
 bootpack-rs.o: bootpack.rs
-	rustc -O --target i686-unknown-linux-gnu --crate-type staticlib --emit obj -C relocation-model=static bootpack.rs -o bootpack-rs.o
+	rustc --target i686-unknown-linux-gnu --crate-type staticlib --emit obj -C relocation-model=static -C opt-level=2 bootpack.rs -o bootpack-rs.o
 
 run: helloos.img
 	$(QEMU) $(QFLAGS)

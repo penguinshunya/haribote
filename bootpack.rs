@@ -56,7 +56,7 @@ unsafe fn set_palette(rgb: &[u32; 48]) {
     io_cli();
     io_out8(0x03c8, 0);
     for i in 0..48 {
-        io_out8(0x03c9, rgb[i]);
+        io_out8(0x03c9, rgb[i] / 4);
     }
     io_store_eflags(eflags);
 }
@@ -79,10 +79,10 @@ pub const COL8_4488CC: u8 = 14;
 pub const COL8_848484: u8 = 15;
 
 unsafe fn init_screen(vram: *mut u8, xsize: u32, ysize: u32) {
-    // boxfill8(vram, xsize, COL8_4488CC,          0,          0, xsize -  1, ysize - 29);
-    // boxfill8(vram, xsize, COL8_C6C6C6,          0, ysize - 28, xsize -  1, ysize - 28);
-    // boxfill8(vram, xsize, COL8_FFFFFF,          0, ysize - 27, xsize -  1, ysize - 27);
-    // boxfill8(vram, xsize, COL8_C6C6C6,          0, ysize - 26, xsize -  1, ysize -  1);
+    boxfill8(vram, xsize, COL8_4488CC,          0,          0, xsize -  1, ysize - 29);
+    boxfill8(vram, xsize, COL8_C6C6C6,          0, ysize - 28, xsize -  1, ysize - 28);
+    boxfill8(vram, xsize, COL8_FFFFFF,          0, ysize - 27, xsize -  1, ysize - 27);
+    boxfill8(vram, xsize, COL8_C6C6C6,          0, ysize - 26, xsize -  1, ysize -  1);
 
     boxfill8(vram, xsize, COL8_FFFFFF,          3, ysize - 24,         59, ysize - 24);
     boxfill8(vram, xsize, COL8_FFFFFF,          2, ysize - 24,          2, ysize -  4);
