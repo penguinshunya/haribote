@@ -1,0 +1,6 @@
+libcore.rlib
+*.o
+*.lst
+*.bin
+haribote.sys
+helloos.img

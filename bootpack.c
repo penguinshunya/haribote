@@ -1,6 +1,11 @@
 #include "bootpack.h"
 #include "tsprintf.h"
 
+void task_b_main(void)
+{
+	for (;;) { io_hlt(); }
+}
+
 void HariMain(void)
 {
 	struct BOOTINFO *binfo = (struct BOOTINFO *) ADR_BOOTINFO;
@@ -81,6 +86,9 @@ void HariMain(void)
 	tsprintf(s, "memory %dMB  free : %dKB", memtotal / (1024 * 1024), memman_total(memman) / 1024);
 	putfonts8_asc_sht(sht_back, 0, 32, COL8_FFFFFF, COL8_4488CC, s, 40);
 
+	int task_b_esp;
+	task_b_esp = memman_alloc_4k(memman, 64 * 1024) + 64 * 1024;
+
 	for (;;) {
 		if (fifo32_status(&fifo) == 0) {
 			io_stihlt();
@@ -148,6 +156,23 @@ void HariMain(void)
 			}
 		} else if (i == 10) {
 			putfonts8_asc_sht(sht_back, 0, 64, COL8_FFFFFF, COL8_4488CC, "10[sec]", 7);
+			tss_b.eip = (int) &task_b_main;
+			tss_b.eflags = 0x00000202;	/* IF = 1; */
+			tss_b.eax = 0;
+			tss_b.ecx = 0;
+			tss_b.edx = 0;
+			tss_b.ebx = 0;
+			tss_b.esp = task_b_esp;
+			tss_b.ebp = 0;
+			tss_b.esi = 0;
+			tss_b.edi = 0;
+			tss_b.es = 1 * 8;
+			tss_b.cs = 2 * 8;
+			tss_b.ss = 1 * 8;
+			tss_b.ds = 1 * 8;
+			tss_b.fs = 1 * 8;
+			tss_b.gs = 1 * 8;
+			taskswitch4();
 		} else if (i == 3) {
 			putfonts8_asc_sht(sht_back, 0, 80, COL8_FFFFFF, COL8_4488CC, "3[sec]", 6);
 		} else if (i <= 1) {

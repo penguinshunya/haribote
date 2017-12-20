@@ -7,6 +7,7 @@
 	global	load_cr0, store_cr0
 	global	memtest_sub
 	global	get_esp
+	global	load_tr, taskswitch4
 
 	extern	inthandler20, inthandler21, inthandler2c
 
@@ -178,4 +179,12 @@ mts_fin:
 
 get_esp:
 	mov	eax, esp
+	ret
+
+load_tr:	; void load_tr(int tr);
+	ltr	[esp + 4]
+	ret
+
+taskswitch4:	; void taskswitch4(void);
+	jmp	4 * 8: 0
 	ret

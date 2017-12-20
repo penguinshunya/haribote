@@ -24,6 +24,8 @@ int load_cr0(void);
 void store_cr0(int cr0);
 unsigned int memtest_sub(unsigned int start, unsigned int end);
 int get_esp(void);
+void load_tr(int tr);
+void taskswitch4(void);
 
 /* graphic.c */
 void init_palette(void);
@@ -63,6 +65,12 @@ struct GATE_DESCRIPTOR {
 	char dw_count, access_right;
 	short offset_high;
 };
+struct TSS32 {
+	int backlink, esp0, ss0, esp1, ss1, esp2, ss2, cr3;
+	int eip, eflags, eax, ecx, edx, ebx, esp, ebp, esi, edi;
+	int es, cs, ss, ds, fs, gs;
+	int ldtr, iomap;
+};
 void init_gdtidt(void);
 void set_segmdesc(struct SEGMENT_DESCRIPTOR *sd, unsigned int limit, int base, int ar);
 void set_gatedesc(struct GATE_DESCRIPTOR *gd, int offset, int selector, int ar);
@@ -74,7 +82,9 @@ void set_gatedesc(struct GATE_DESCRIPTOR *gd, int offset, int selector, int ar);
 #define LIMIT_BOTPAK	0x0007ffff
 #define AR_DATA32_RW	0x4092
 #define AR_CODE32_ER	0x409a
+#define	AR_TSS32		0x0089
 #define AR_INTGATE32	0x008e
+struct TSS32 tss_a, tss_b;
 
 /* fifo.c */
 #define FLAGS_OVERRUN	0x0001
